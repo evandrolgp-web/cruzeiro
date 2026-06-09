@@ -35,7 +35,7 @@ jobs:
         run: node scripts/fetch-news.mjs || echo '{"items":[],"updatedAt":""}' > public/news.json
 
       - name: Build
-        run: next build
+        run: npx next build
 
       - name: Disable Jekyll
         run: touch out/.nojekyll
