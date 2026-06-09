@@ -1,6 +1,6 @@
 "use client";
 
-import { NewsItem, fetchAllNews } from "@/lib/news";
+import { NewsItem, NewsData, fetchAllNews } from "@/lib/news";
 import FilterBar from "@/components/FilterBar";
 import Header from "@/components/Header";
 import NewsCard from "@/components/NewsCard";
@@ -11,17 +11,16 @@ import { useCallback, useEffect, useState } from "react";
 const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
 export default function Home() {
-  const [items, setItems] = useState<NewsItem[]>([]);
+  const [data, setData] = useState<NewsData | null>(null);
+  const items = data?.items ?? [];
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState("all");
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   const fetchNews = useCallback(async () => {
     try {
-      const news = await fetchAllNews();
-      setItems(news);
-      setLastUpdated(new Date());
+      const result = await fetchAllNews();
+      setData(result);
       setError(null);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erro desconhecido");
@@ -60,9 +59,9 @@ export default function Home() {
             <h2 className="text-white font-bold text-2xl">
               Últimas Notícias
             </h2>
-            {lastUpdated && (
+            {data?.updatedAt && (
               <p className="text-blue-400 text-xs mt-0.5">
-                Atualizado às {lastUpdated.toLocaleTimeString("pt-BR")} •{" "}
+                Atualizado às {new Date(data.updatedAt).toLocaleTimeString("pt-BR", { timeZone: "America/Sao_Paulo" })} •{" "}
                 {items.length} notícias
               </p>
             )}
