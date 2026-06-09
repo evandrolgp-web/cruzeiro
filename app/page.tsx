@@ -1,6 +1,6 @@
 "use client";
 
-import { NewsItem } from "@/app/api/news/route";
+import { NewsItem, fetchAllNews } from "@/lib/news";
 import FilterBar from "@/components/FilterBar";
 import Header from "@/components/Header";
 import NewsCard from "@/components/NewsCard";
@@ -19,10 +19,8 @@ export default function Home() {
 
   const fetchNews = useCallback(async () => {
     try {
-      const res = await fetch("/api/news", { cache: "no-store" });
-      if (!res.ok) throw new Error("Falha ao carregar notícias");
-      const data = await res.json();
-      setItems(data.items);
+      const news = await fetchAllNews();
+      setItems(news);
       setLastUpdated(new Date());
       setError(null);
     } catch (e) {

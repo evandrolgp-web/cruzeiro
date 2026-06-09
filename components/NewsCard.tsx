@@ -1,6 +1,6 @@
 "use client";
 
-import { NewsItem } from "@/app/api/news/route";
+import { NewsItem } from "@/lib/news";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";

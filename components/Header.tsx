@@ -1,6 +1,6 @@
 "use client";
 
-import { NewsItem } from "@/app/api/news/route";
+import { NewsItem } from "@/lib/news";
 import { useEffect, useState } from "react";
 
 interface Props {
